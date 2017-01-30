@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.wuwz.poi.ExcelKit;
+
 import com.google.common.collect.Lists;
 
-@WebServlet("/")
+@WebServlet("/example")
 public class MainServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2660407198127920232L;
@@ -31,9 +33,7 @@ public class MainServlet extends HttpServlet {
 			users.add(e);
 		}
 		
-		request.setAttribute("users", users);
-		
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		ExcelKit.$Export(User.class, response).toExcel(users, "用户信息");
 	}
 
 }
