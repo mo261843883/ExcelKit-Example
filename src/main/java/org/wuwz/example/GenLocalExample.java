@@ -15,7 +15,7 @@ public class GenLocalExample {
 		
 		
 		List<User> users = Lists.newArrayList();
-		for (int i = 0; i < 300; i++) {
+		for (int i = 0; i < 3000; i++) {
 			User e = new User();
 			e.setUid(i + 1);
 			e.setUsername("USERNAME_" + (i + 1));

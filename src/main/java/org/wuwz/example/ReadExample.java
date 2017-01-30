@@ -31,7 +31,7 @@ public class ReadExample {
 			}
 		});
 		
-		System.out.println(users);
+		//System.out.println(users);
 	}
 
 }
