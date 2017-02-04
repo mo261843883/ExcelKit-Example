@@ -8,7 +8,7 @@
 	<name>ExcelKit-Example Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-		<dependency>
+		<dependency><!-- 由于jar包暂时还没时间上传到中央仓库，所以此处其实是引用的本地仓库中的jar包（需要手动写入） -->
 			<groupId>org.wuwz</groupId>
 			<artifactId>ExcelKit</artifactId>
 			<version>1.0</version>
