@@ -2,7 +2,7 @@
 
 > ExcelKit完整示例程序 ([https://github.com/wuwz/ExcelKit][1])
 
-
-导出示例：浏览器访问 http://localhost:8080/ExcelKit-Example/example
+![image](https://raw.githubusercontent.com/wuwz/ExcelKit-Example/master/example.png)
+![image](https://raw.githubusercontent.com/wuwz/ExcelKit-Example/master/example.gif)
 
   [1]: https://github.com/wuwz/ExcelKit

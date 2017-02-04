@@ -2,5 +2,15 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
+	id="WebApp_ID" version="2.5">
+	<display-name>ExcelKit-Example</display-name>
+
+	<servlet>
+		<servlet-name>example</servlet-name>
+		<servlet-class>org.wuwz.poi.examples.ExampleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>example</servlet-name>
+		<url-pattern>/example</url-pattern>
+	</servlet-mapping>
 </web-app>
