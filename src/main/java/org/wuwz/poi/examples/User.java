@@ -1,6 +1,6 @@
 /**
 
- * Copyright (c) 2017, Œ‚„Î‘Û (wuwz@live.com).
+ * Copyright (c) 2017, Âê¥Ê±∂Ê≥Ω (wuwz@live.com).
 
  *
 
@@ -29,68 +29,69 @@
  */
 package org.wuwz.poi.examples;
 
-import org.wuwz.poi.ExportConfig;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.wuwz.poi.annotation.ExportConfig;
 
 public class User {
 
-	@ExportConfig(value = "UID", width = 150)
+	@ExportConfig("UID")
 	private Integer uid;
 
-	@ExportConfig(value = "”√ªß√˚", width = 200)
+	@ExportConfig("Áî®Êà∑Âêç")
 	private String username;
 
-	@ExportConfig(value = "√‹¬Î(≤ªø…º˚)", width = 120, isExportData = false)
+	@ExportConfig(value = "ÂØÜÁ†Å", replace = "******", color = HSSFColor.RED.index)
 	private String password;
 
-	@ExportConfig(value = "Í«≥∆", width = 200)
-	private String nickname;
+	@ExportConfig(value = "ÊÄßÂà´", width = 50, convert = "s:1=Áî∑,2=Â•≥")
+	private Integer sex;
 
-	// ≤ªÃÌº”◊¢Ω‚‘Ú≤ªµº≥ˆ
-	private Integer age;
+	@ExportConfig(value = "Âπ¥Á∫ß", convert = "c:org.wuwz.poi.examples.GradeIdConvert")
+	private Integer gradeId;
 
 	public Integer getUid() {
 		return uid;
 	}
 
-	public void setUid(Integer uid) {
+	public User setUid(Integer uid) {
 		this.uid = uid;
+		return this;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public User setUsername(String username) {
 		this.username = username;
+		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public User setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public Integer getSex() {
+		return sex;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public User setSex(Integer sex) {
+		this.sex = sex;
+		return this;
 	}
 
-	public Integer getAge() {
-		return age;
+	public Integer getGradeId() {
+		return gradeId;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public User setGradeId(Integer gradeId) {
+		this.gradeId = gradeId;
+		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "User [uid=" + uid + ", username=" + username + ", password=" + password + ", nickname=" + nickname
-				+ ", age=" + age + "]";
-	}
 }

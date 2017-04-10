@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<h1 class="page-header">ExcelKit-Example v1.0 
+		<h1 class="page-header">ExcelKit-Example v2.0 
 			<small><a href="http://git.oschina.net/wuwenze/ExcelKit" target="_blank">Download ExcelKit SourceCode</a></small>
 		</h1>
 		
@@ -25,13 +25,9 @@
 				<a href="example?t=export" target="_self" class="btn btn-primary btn-sm">1. 导出Excel</a>
 			</div>
 			<div class="form-group">
-				<a href="example?t=downtmpl" target="_self" class="btn btn-success btn-sm">2. 下载Excel导入模板</a>
+				<input type="file" id="uploadFile" name="uploadFile" />
 			</div>
-			
-			<div class="form-group">
-				<input type="file" id="uploadFile" name="uploadFile">
-			</div>
-			<button type="submit" class="btn btn-danger btn-sm">3. 导入Excel数据</button>
+			<button type="submit" class="btn btn-danger btn-sm">2. 导入Excel数据</button>
 		</form>
 		<hr />
 		
@@ -41,8 +37,8 @@
 					<th>UID</th>
 					<th>用户名</th>
 					<th>密码</th>
-					<th>昵称</th>
-					<th>年龄</th>
+					<th>性别</th>
+					<th>年级</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,8 +47,18 @@
 						<td>${item.uid}</td>
 						<td>${item.username}</td>
 						<td>${item.password}</td>
-						<td>${item.nickname}</td>
-						<td>${item.age}</td>
+						<td>
+							<c:if var="sex" test="${item.sex eq 1}">男</c:if>
+							<c:if test="${not sex}">女</c:if>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${item.gradeId eq 1}">一年级学生</c:when>
+								<c:when test="${item.gradeId eq 2}">二年级学生</c:when>
+								<c:when test="${item.gradeId eq 3}">三年级学生</c:when>
+								<c:otherwise>无记录</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>

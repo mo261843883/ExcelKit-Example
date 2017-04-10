@@ -1,6 +1,6 @@
 /**
 
- * Copyright (c) 2017, ÎâãëÔó (wuwz@live.com).
+ * Copyright (c) 2017, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (wuwz@live.com).
 
  *
 
@@ -30,26 +30,29 @@
 package org.wuwz.poi.examples;
 
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-/**
- * Ä£ÄâÊı¾İ¿âÊı¾İ
- * @author wuwz
- */
 public class Db {
 	static final List<User> users = Lists.newArrayList();
 	
 	static {
-		// Éú³É10Ìõ²âÊÔÊı¾İ
-		for (int i = 0; i < 10; i++) {
-			User e = new User();
-			e.setUid(i+1);
-			e.setUsername("USERNAME_"+(i+1));
-			e.setPassword("PASSWORD_"+(i+1));
-			e.setNickname("NICKNAME_"+(i+1));
-			e.setAge(18);
-			users.add(e);
+		// æ¨¡æ‹Ÿ15æ¡æ•°æ®
+		Random random = new Random();
+		
+		User user = null;
+		for (int i = 0; i < 15; i++) {
+			user = new User()
+				.setUid(i + 1)
+				.setUsername("username_"+(i+1))
+				.setPassword("password")
+				.setSex(random.nextInt(2) % 2 == 0 ? 1 : 2)
+				.setGradeId(random.nextInt(4))
+				;
+			
+			users.add(user);
+			user = null;
 		}
 	}
 

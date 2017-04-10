@@ -1,6 +1,6 @@
 /**
 
- * Copyright (c) 2017, Œ‚„Î‘Û (wuwz@live.com).
+ * Copyright (c) 2017, ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ (wuwz@live.com).
 
  *
 
@@ -29,16 +29,10 @@
  */
 package org.wuwz.poi.examples;
 
-import java.io.File;
-
 import org.wuwz.poi.ExcelKit;
-import org.wuwz.poi.OnReadDataHandler;
 
 public class MyExcelKit extends ExcelKit {
 	
-	@Override
-	public void readExcel(File excelFile, int sheetIndex, OnReadDataHandler handler) {
-		System.out.println("ºÃ≥–÷ÿ–¥...");
-		super.readExcel(excelFile, sheetIndex, handler);
-	}
+	// ÈáçÂÜô..
+	
 }

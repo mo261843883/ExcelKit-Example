@@ -1,6 +1,6 @@
 /**
 
- * Copyright (c) 2017, ÎâãëÔó (wuwz@live.com).
+ * Copyright (c) 2017, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (wuwz@live.com).
 
  *
 
@@ -30,17 +30,11 @@
 package org.wuwz.poi.examples;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,12 +43,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.wuwz.poi.ExcelKit;
-import org.wuwz.poi.ExcelType;
-import org.wuwz.poi.OnReadDataHandler;
+import org.wuwz.poi.hanlder.ReadHandler;
 
 /**
- * ä¯ÀÀÆ÷µ¼³ö²âÊÔ
- * 
  * @author wuwz
  */
 // @WebServlet("/example")
@@ -70,20 +61,16 @@ public class ExampleServlet extends HttpServlet {
 
 		String t = request.getParameter("t");
 		if ("list".equals(t)) {
-			// Ìø×ªµ½ÁĞ±íÒ³
 			toListPage(request, response);
+		} 
+		// å¯¼å‡º
+		else if ("export".equals(t)) {
 			
-		} else if ("export".equals(t)) {
+			ExcelKit.$Export(User.class, response).toExcel(Db.getUsers(), "ç”¨æˆ·ä¿¡æ¯");
+		}
+		// å¯¼å…¥
+		else if ("import".equals(t)) {
 			
-			// Ö´ĞĞExcelÎÄ¼şµ¼³ö
-			ExcelKit.$Export(User.class, response).toExcel(Db.getUsers(), "ÓÃ»§ĞÅÏ¢");
-		} else if ("downtmpl".equals(t)) {
-
-			// ÏÂÔØÄ£°æÎÄ¼ş
-			downTemplFile(response);
-		} else if ("import".equals(t)) {
-			
-			// ExcelÎÄ¼şµ¼Èë
 			importExcelFile(request, response);
 		}
 	}
@@ -91,24 +78,19 @@ public class ExampleServlet extends HttpServlet {
 	private void importExcelFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter writer = response.getWriter();
 		if (!ServletFileUpload.isMultipartContent(request)) {
-		    writer.println("Error: ±íµ¥±ØĞë°üº¬ enctype=multipart/form-data");
+		    writer.println("Error: enctype!=multipart/form-data");
 		    writer.flush();
 		    return;
 		}
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		// ÉèÖÃÄÚ´æÁÙ½çÖµ - ³¬¹ıºó½«²úÉúÁÙÊ±ÎÄ¼ş²¢´æ´¢ÓÚÁÙÊ±Ä¿Â¼ÖĞ
 		factory.setSizeThreshold(1024 * 1024 * 3);
-		// ÉèÖÃÁÙÊ±´æ´¢Ä¿Â¼
 		factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
  
 		ServletFileUpload upload = new ServletFileUpload(factory);
-		// ÉèÖÃ×î´óÎÄ¼şÉÏ´«Öµ
 		upload.setFileSizeMax(1024 * 1024 * 40);
-		// ÉèÖÃ×î´óÇëÇóÖµ (°üº¬ÎÄ¼şºÍ±íµ¥Êı¾İ)
 		upload.setSizeMax(1024 * 1024 * 50);
  
-		// ¹¹ÔìÁÙÊ±Â·¾¶À´´æ´¢ÉÏ´«µÄÎÄ¼ş
 		String uploadPath = request.getServletContext().getRealPath("./") + File.separator + "upload";
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists()) {
@@ -116,7 +98,6 @@ public class ExampleServlet extends HttpServlet {
 		}
  
 		try {
-		    // ½âÎöÇëÇóµÄÄÚÈİÌáÈ¡ÎÄ¼şÊı¾İ
 		    List<FileItem> formItems = upload.parseRequest(request);
  
 		    if (formItems != null && formItems.size() > 0) {
@@ -128,25 +109,28 @@ public class ExampleServlet extends HttpServlet {
 		                System.out.println(filePath);
 		                item.write(storeFile);
 		                
-		                //=============¿ªÊ¼½âÎöExcelÎÄ¼ş²¢Èë¿â=================
-		                ExcelKit.$Import().readExcel(storeFile, new OnReadDataHandler() {
+		                // æ‰§è¡Œexcelæ–‡ä»¶å¯¼å…¥
+		                ExcelKit.$Import().readExcel(storeFile, new ReadHandler() {
 							
 							@Override
-							public void handler(List<String> rowData) {
-								User user = new User();
-								user.setUid(Integer.parseInt(rowData.get(0)));
-								user.setUsername(rowData.get(1));
-								user.setPassword(rowData.get(2));
-								user.setNickname(rowData.get(3));
-								user.setAge(18);
-								Db.addUser(user);
+							public void handler(int sheetIndex, int rowIndex, List<String> row) {
+								if(rowIndex != 0) { //æ’é™¤ç¬¬ä¸€è¡Œ
+									User user = new User()
+											.setUid(Integer.parseInt(row.get(0)))
+											.setUsername(row.get(1))
+											.setPassword(row.get(2))
+											.setSex(Integer.parseInt(row.get(3)))
+											.setGradeId(Integer.parseInt(row.get(4)));
+									Db.addUser(user);
+								}
+								
 							}
 						});
+		                
 		                
 		                if(storeFile.exists()) {
 		                	storeFile.delete();
 		                }
-		                // Ìø×ªÁĞ±íÒ³
 		                toListPage(request, response);
 		            }
 		        }
@@ -154,37 +138,6 @@ public class ExampleServlet extends HttpServlet {
 		} catch (Exception ex) {
 			writer.println("Error: "+ex.getMessage());
 			writer.flush();
-		}
-	}
-
-	private void downTemplFile(HttpServletResponse response) throws FileNotFoundException, IOException {
-		File tmplFile = new File(String.format("%s/import_template.xlsx", System.getProperty("java.io.tmpdir")));
-		
-		if(!tmplFile.exists()) {
-			// ¹¹½¨Ä£°æÎÄ¼ş
-			ExcelKit.$Builder(User.class).toExcel(null, "ÓÃ»§ĞÅÏ¢", new FileOutputStream(tmplFile));
-		}
-
-		// Ö´ĞĞÏÂÔØ
-		@SuppressWarnings("deprecation")
-		String fileName = URLEncoder.encode(tmplFile.getName());
-		response.reset();
-		response.setContentType(ExcelKit.$Import().getContentType(ExcelType.EXCEL2007));
-		response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-
-		int fileLength = (int) tmplFile.length();
-		response.setContentLength(fileLength);
-		if (fileLength != 0) {
-			InputStream inStream = new FileInputStream(tmplFile);
-			byte[] buf = new byte[4096];
-			ServletOutputStream servletOS = response.getOutputStream();
-			int readLength;
-			while (((readLength = inStream.read(buf)) != -1)) {
-				servletOS.write(buf, 0, readLength);
-			}
-			inStream.close();
-			servletOS.flush();
-			servletOS.close();
 		}
 	}
 
