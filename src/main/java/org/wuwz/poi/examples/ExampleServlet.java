@@ -66,7 +66,9 @@ public class ExampleServlet extends HttpServlet {
 		// 导出
 		else if ("export".equals(t)) {
 			
-			ExcelKit.$Export(User.class, response).toExcel(Db.getUsers(), "用户信息");
+			ExcelKit.$Export(User.class, response)
+                    .setMaxSheetRecords(5)
+                    .toExcel(Db.getUsers(), "用户信息");
 		}
 		// 导入
 		else if ("import".equals(t)) {

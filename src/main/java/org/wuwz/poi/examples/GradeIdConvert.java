@@ -47,7 +47,7 @@ public class GradeIdConvert implements ExportConvert {
 
 	@Override
 	public String handler(Integer val) {
-		return records.get(val) != null ? records.get(val) : "无记录";
+		return records.get(val) != null ? records.get(val) : "没有该记录";
 	}
 
 }
